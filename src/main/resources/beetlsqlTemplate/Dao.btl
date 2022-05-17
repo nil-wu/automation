@@ -1,0 +1,51 @@
+package ${package};
+
+import com.core.application.claim.dto.domain.${className}Dto;
+import com.sinosoft.sysframework.common.Pagination;
+
+import java.util.List;
+
+/*
+*  ${className}Dao--${comment}dao类
+* @author Administrator
+* ${today}
+*
+*/
+public interface ${className}Dao {
+	/**
+     * 插入一条数据
+     */
+    public void insert(${className}Dto ${lowerClassName}Dto);
+
+    /**
+     * 采用批方式插入多条数据
+     */
+	@SuppressWarnings("rawtypes")
+    public void insertAll(List ${lowerClassName}DtoList);
+
+    /**
+     * 按主键更新一条数据(主键本身无法变更)
+     */
+    public void update(${className}Dto ${lowerClassName}Dto);
+
+    /**
+     * 按主键删除一条数据
+     */
+    public void deleteByPrimaryKey(${attrsKeyString});
+
+    /**
+     * 按对象删除多条记录
+     */
+    public void deleteByObject(${className}Dto ${lowerClassName}Dto);
+
+    /**
+     * 按主键查找一条数据
+     */
+    public ${className}Dto findByPrimaryKey(${attrsKeyString});
+
+    /**
+     * 按对象查询出一个列表
+     */
+    public List<${className}Dto> find(${className}Dto ${lowerClassName}Dto, Pagination pagination);
+
+}

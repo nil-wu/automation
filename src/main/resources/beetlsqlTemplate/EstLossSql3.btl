@@ -1,0 +1,7 @@
+<%for(attr in attrs){%>
+insert into clmrule.clm_estimate_config (COMCODE, RISKCODE, KINDCODE, LOSSITEMTYPES, EXECUTEVALUE, CURRENCY, EXECUTEDAY, REEXECUTEOPERATOR, REEXECUTEDOUBLE, REEXECUTEDAY, REMARK, VALIDIND, FLAG, EXPAND1, EXPAND2, COMNAME, RISKCODENAME, KINDCODENAME, LOSSITEMTYPESNAME, REEXECUTEOPERATORNAME) values ('${attr.comcode}', '${attr.riskcode}', '${attr.kindcode}', '${attr.lossitemtypes}', ${attr.executevalue}, 'CNY', null, null, null, null, null, '1', null, null, null, null, null, null, '${attr.lossitemtypesname}', null);
+
+<% }%>
+
+
+

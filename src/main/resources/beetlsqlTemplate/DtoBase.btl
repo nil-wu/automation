@@ -1,0 +1,89 @@
+package ${package};
+
+import java.util.Date;
+import com.core.sysframework.common.BaseDto;
+
+import java.io.Serializable;
+
+/*
+*  ${className}DtoBase--${comment}数据传输对象基类
+* @author Administrator
+* ${today}
+*
+*/
+public  class ${className}DtoBase extends BaseDto implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+    <%for(attr in attrs){
+        if(!(attr.name == "dateCreated" || attr.name == "createdBy" ||attr.name == "dateUpdated" ||attr.name == "updatedBy" )){
+            if(!isEmpty(attr.comment)){%>
+    /**
+    *属性：${attr.comment}${attr.isKey?"(主键)"} <br>
+    *含义:${attr.comment}<br>
+    */
+    <%        }%>
+    private ${attr.type} ${attr.name} ;
+    <%}}%>
+
+    public ${className}DtoBase() {
+	}
+
+    <%for(attr in attrs){
+            if(!(attr.name == "dateCreated" || attr.name == "createdBy" ||attr.name == "dateUpdated" ||attr.name == "updatedBy" )){
+                if(!isEmpty(attr.comment)){%>
+    /**
+     * 获取属性${attr.comment}<br>
+     * 含义:${attr.comment}<br>
+     *@return 属性${attr.comment}的值<br>
+     */
+    <%        }%>
+    public ${attr.type} get${attr.methodName}(){
+        return  ${attr.name};
+    }
+
+    /**
+     * 设置属性${attr.comment}<br>
+     * 含义:${attr.comment}<br>
+     *@param ${attr.name} 待设置的属性${attr.comment}的值<br>
+     */
+    public void set${attr.methodName}(${attr.type} ${attr.name} ){
+        this.${attr.name} = ${attr.name};
+    }
+
+    <%}}%>
+
+	/**
+     * 比较两个对象在逻辑上是否相等
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof ${className}DtoBase)) {
+            return false;
+        }
+
+        final ${className}DtoBase otherDto = (${className}DtoBase) other;
+        <%for(attr in attrsKey){%>
+        if (get${attr.methodName}()!=null && !get${attr.methodName}().equals(otherDto.get${attr.methodName}())) {
+            return false;
+        }
+        <%}%>
+        return true;
+    }
+
+	/**
+     * 根据主键生成HashCode
+     * @see java.lang.Object#hashCode()
+     */
+    public int hashCode() {
+        StringBuilder buffer = new StringBuilder();
+        <%for(attr in attrsKey){%>
+        buffer.append('|').append(${attr.name});
+        <%}%>
+        return buffer.toString().hashCode();
+    }
+
+}

@@ -1,0 +1,53 @@
+package ${package};
+
+${imports}
+${implSerializable?"import java.io.Serializable;"}
+
+/*
+* ${keywords}Entity--${tableNameReal}表的数据传输对象基类
+* @author Administrator
+* ${today}
+*
+*/
+public class ${keywords}Entity ${!isEmpty(ext)?"extends "+ext} ${implSerializable?"implements Serializable"} {
+    
+<%for(attr in attrs){
+        if(!(attr.isKey && hasSpite )){
+            if(!isEmpty(attr.comment)){%>
+    /**
+    *属性：${attr.comment}${attr.isKey?"(主键)"} <br>
+    *含义:${attr.comment}<br>
+    */
+    <%        }%>
+    private ${attr.type} ${attr.name} ;
+
+    <%}}%>
+
+    public ${className}Entity() {
+    }
+
+    <%for(attr in attrs){
+            if(!(attr.isKey && hasSpite )){
+                if(!isEmpty(attr.comment)){%>
+    /**
+     * 获取属性${attr.comment}<br>
+     * 含义:${attr.comment}<br>
+     *@return 属性${attr.comment}的值<br>
+     */
+    <%        }%>
+    public ${attr.type} get${attr.methodName}(){
+        return  ${attr.name};
+    }
+
+    /**
+     * 设置属性${attr.comment}<br>
+     * 含义:${attr.comment}<br>
+     *@param ${attr.name} 待设置的属性${attr.comment}的值<br>
+     */
+    public void set${attr.methodName}(${attr.type} ${attr.name} ){
+        this.${attr.name} = ${attr.name};
+    }
+
+    <%}}%>
+
+}

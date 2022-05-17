@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+		"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.core.application.claim.dto.domain.${className}Dto" table="${tableName}">
+		<composite-id>
+		    <%for(attr in attrsKey){%>
+			<key-property name="${attr.name}" column="${attr.name}" type="${attr.lowertype}" />
+			<%}%>
+		</composite-id>
+		<%for(attr in attrs){if(!(attr.name == "dateCreated" || attr.name == "createdBy" ||attr.name == "dateUpdated" ||attr.name == "updatedBy" )){if(!attr.isKey){%>
+		<property name="${attr.name}" column="${attr.name}" type="${attr.lowertype}" />
+		<%}}}%>
+
+
+		<property name="createdBy" column="created_by" update="false" type="string" />
+		<property name="dateCreated" column="date_created"  update="false" type="timestamp" />
+		<property name="updatedBy" column="updated_by" type="string" />
+		<property name="dateUpdated" column="date_updated" type="timestamp" />
+	</class>
+</hibernate-mapping>

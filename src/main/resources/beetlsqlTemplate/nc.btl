@@ -1,0 +1,39 @@
+package com.gencode.util;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * 共用代码转化类
+ */
+public class CodeTransferUtils {
+
+    private CodeTransferUtils(){}
+
+    public String convertCode(String code){return "";}
+
+    public static CodeTransferUtils Convert_Name = new Convert_Name();
+
+    private static class Convert_Name extends CodeTransferUtils {
+        private static Map<String, String> codeMap = new HashMap<String, String>();
+
+        static{
+        <%for(attr in attrs){%>
+            codeMap.put("${attr.name}","${attr.name}");
+        <%}%>
+
+            codeMap.put("date_updated","dateUpdated");
+            codeMap.put("created_by","createdBy");
+            codeMap.put("date_created","dateCreated");
+            codeMap.put("updated_by","updatedBy");
+        }
+
+        @Override
+        public String convertCode(String code) {
+            if(code == null || "".equals(code)){
+                return "";
+            }
+            return codeMap.get(code);
+        }
+    }
+}

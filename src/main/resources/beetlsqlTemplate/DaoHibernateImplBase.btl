@@ -1,0 +1,127 @@
+package ${package};
+
+import com.core.application.claim.dto.domain.${className}Dto;
+import com.core.application.common.ToolsUtils;
+import com.sinosoft.sysframework.common.Pagination;
+import com.sinosoft.sysframework.common.util.SqlUtils;
+import com.sinosoft.sysframework.persistence.BaseDaoHibernateImpl;
+import com.sinosoft.sysframework.persistence.Param;
+import com.sinosoft.sysframework.persistence.PreparedSQLQuery;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/*
+*  ${className}DaoHibernateImplBase--${comment}daoHibernateImplBase类
+* @author Administrator
+* ${today}
+*
+*/
+public abstract class ${className}DaoHibernateImplBase extends BaseDaoHibernateImpl {
+
+	protected static final String[] propertyArray = new String[]{
+		${attrsKeyString4}
+	};
+
+    protected static final String[] propertyArrayPK = new String[]{ ${attrsKeyString3} };
+
+    /**
+     * 默认构造方法
+     */
+    public ${className}DaoHibernateImplBase() {
+    }
+
+    /**
+     * 插入一条数据
+     */
+    public void insert(${className}Dto ${lowerClassName}Dto) {
+    	ToolsUtils.setValue(${lowerClassName}Dto,"1");
+        getHibernateTemplate().save(${lowerClassName}Dto);
+    }
+
+    /**
+     * 采用批方式插入多条数据
+     */
+	@SuppressWarnings("rawtypes")
+    public void insertAll(List ${lowerClassName}DtoList) {
+    	ToolsUtils.setValue(${lowerClassName}DtoList,"1");
+        super.saveOrUpdateAll(${lowerClassName}DtoList);
+    }
+
+    /**
+     * 按主键更新一条数据(主键本身无法变更)
+     */
+    public void update(${className}Dto ${lowerClassName}Dto) {
+    	ToolsUtils.setValue(${lowerClassName}Dto,"2");
+        getHibernateTemplate().update(${lowerClassName}Dto);
+    }
+
+    /**
+     * 按主键删除一条数据
+     */
+    public void deleteByPrimaryKey(${attrsKeyString}) {
+        getHibernateTemplate().delete(findByPrimaryKey( ${attrsKeyString2}));
+    }
+
+    /**
+     * 按对象删除多条记录
+     */
+    @SuppressWarnings("deprecation")
+    public void deleteByObject(${className}Dto ${lowerClassName}Dto) {
+        StringBuilder sql = new StringBuilder(100);
+        sql.append(SqlUtils.addConditions(${lowerClassName}Dto, propertyArray));
+        if(sql.length()==0){
+            throw new IllegalArgumentException("Can't execute deleteByObject without value.");
+        }
+        sql.insert(0,"delete from ${className}Dto where 1=1 ");
+        getHibernateTemplate().bulkUpdate(sql.toString());
+    }
+
+    /**
+     * 按主键查找一条数据
+     */
+    public ${className}Dto findByPrimaryKey(${attrsKeyString}) {
+    <%for(attr in attrsKey){%>
+    	if(${attr.name}== null) {
+            return null;
+        }
+     <% }%>
+        ${className}Dto ${lowerClassName}Dto = new ${className}Dto();
+        <%for(attr in attrsKey){%>
+        ${lowerClassName}Dto.set${attr.methodName}(${attr.name});
+        <%}%>
+        Object obj = getHibernateTemplate().get(${className}Dto.class, ${lowerClassName}Dto);
+        return (obj == null) ? null : (${className}Dto) obj;
+    }
+
+    /**
+     * 按对象查询出一个列表
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public List<${className}Dto> find(${className}Dto ${lowerClassName}Dto, Pagination pagination) {
+		List<Param> params = new ArrayList<Param>();
+        StringBuilder stdsql = new StringBuilder(100);//存储根据对象生成的条件和Object_Condition
+        stdsql.append(SqlUtils.addPreparedConditions(${lowerClassName}Dto, propertyArray, params));
+        if (${lowerClassName}Dto.getObject_Condition() != null && ${lowerClassName}Dto.getObject_Condition().trim().length() > 0) {
+            stdsql.append(" " + ${lowerClassName}Dto.getObject_Condition());
+        }
+        StringBuilder sql = new StringBuilder(100);
+        sql.append("select {t.*} from ${tableName} t where 1=1 ");
+            sql.append(stdsql);
+        if (${lowerClassName}Dto.getObject_OrderBy() != null && ${lowerClassName}Dto.getObject_OrderBy().trim().length() > 0) {
+            sql.append(" order by " + ${lowerClassName}Dto.getObject_OrderBy());
+        }
+        PreparedSQLQuery hsq = new PreparedSQLQuery(sql.toString(), pagination, params);
+        hsq.addEntityMapping("t", ${className}Dto.class);
+        List list = this.queryList(hsq);
+        if(pagination != null) {
+            sql.setLength(0);
+            sql.append("select count(*) from ${tableName} t where 1=1 ");
+            sql.append(stdsql);
+            PreparedSQLQuery countHsq = new PreparedSQLQuery(sql.toString(), params);
+            int totalCount = this.queryIntegerResult(countHsq).intValue();
+            pagination.setTotalCount(totalCount);
+        }
+        return list;
+    }
+}

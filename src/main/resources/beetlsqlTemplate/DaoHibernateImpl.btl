@@ -1,0 +1,24 @@
+package ${package};
+
+import com.core.application.claim.persistence.dao.${className}Dao;
+import com.core.application.claim.persistence.hibernate.base.${className}DaoHibernateImplBase;
+import com.sinosoft.sysframework.common.util.DataUtils;
+import com.sinosoft.sysframework.persistence.Param;
+import com.sinosoft.sysframework.persistence.PreparedSQLQuery;
+import org.hibernate.Hibernate;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 这是${tableName}表的Hiberante形式的Dao实现类
+ */
+public class ${className}DaoHibernateImpl extends ${className}DaoHibernateImplBase implements ${className}Dao {
+    /**
+     * 默认构造方法
+     */
+    public ${className}DaoHibernateImpl() {
+    }
+
+
+}

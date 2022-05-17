@@ -1,0 +1,76 @@
+package ${package};
+
+import com.core.application.claim.dto.domain.${className}Dto;
+import com.core.application.claim.persistence.dao.${className}Dao;
+import com.core.application.claim.service.facade.${className}Service;
+import com.core.sysframework.service.AbstractServiceSpringImpl;
+import com.sinosoft.sysframework.common.Pagination;
+import org.apache.log4j.Logger;
+
+import java.util.List;
+
+/* 
+*  ${className}ServiceSpringImpl--${comment}ServiceSpringImpl类
+* @author Administrator 
+* ${today}
+*
+*/
+public class ${className}ServiceSpringImpl extends AbstractServiceSpringImpl implements ${className}Service {
+	private static Logger logger = Logger.getLogger(${className}ServiceSpringImpl.class);
+
+	private ${className}Dao ${lowerClassName}Dao;
+	
+	public void set${className}Dao(${className}Dao ${lowerClassName}Dao) {
+        this.${lowerClassName}Dao = ${lowerClassName}Dao;
+    }
+
+    /**
+     * 默认构造方法
+     */
+    public ${className}ServiceSpringImpl() {
+    }
+    
+    /**
+     * 插入一条数据
+     */
+    public void insert(${className}Dto ${lowerClassName}Dto) {
+    	${lowerClassName}Dao.insert(${lowerClassName}Dto);
+    }
+    
+    /**
+     * 采用批方式插入多条数据
+     */
+	@SuppressWarnings("rawtypes")
+    public void insertAll(List ${lowerClassName}DtoList) {
+    	${lowerClassName}Dao.insertAll(${lowerClassName}DtoList);
+    }
+    
+    /**
+     * 按主键更新一条数据(主键本身无法变更)
+     */
+    public void update(${className}Dto ${lowerClassName}Dto) {
+    	${lowerClassName}Dao.update(${lowerClassName}Dto);
+    }
+    
+    /**
+     * 按主键删除一条数据
+     */
+    public void deleteByPrimaryKey(${attrsKeyString}) {
+    	${lowerClassName}Dao.deleteByPrimaryKey( ${attrsKeyString2});
+    }
+    
+    
+    /**
+     * 按主键查找一条数据
+     */
+    public ${className}Dto findByPrimaryKey(${attrsKeyString}) {
+        return ${lowerClassName}Dao.findByPrimaryKey( ${attrsKeyString2});
+    }
+    
+    /**
+     * 按对象查询出一个列表
+     */
+    public List<${className}Dto> find(${className}Dto ${lowerClassName}Dto, Pagination pagination) {
+    	return ${lowerClassName}Dao.find(${lowerClassName}Dto, pagination);
+    }
+}

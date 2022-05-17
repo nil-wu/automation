@@ -1,0 +1,15 @@
+package ${package};
+
+import org.apache.log4j.Logger;
+
+/*
+*  ${className}Action--${comment}Action类
+* @author Administrator
+* ${today}
+*
+*/
+public class ${className}Action extends GcBaseAction {
+	private static Logger logger = Logger.getLogger(${className}Action.class);
+
+
+}

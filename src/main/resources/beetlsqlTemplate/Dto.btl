@@ -1,0 +1,21 @@
+package ${package};
+
+import java.io.Serializable;
+import com.core.application.claim.dto.domain.base.${className}DtoBase;
+
+/*
+*  ${className}Dto--${comment}数据传输对象类
+* @author Administrator
+* ${today}
+*
+*/
+public class ${className}Dto extends ${className}DtoBase implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	/**
+     *  默认构造方法
+     */
+    public ${className}Dto() {
+    }
+
+}

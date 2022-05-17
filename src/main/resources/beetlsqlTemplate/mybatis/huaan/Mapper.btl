@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.${keywords}Mapper">
+  <resultMap id="BaseResultMap" type="cn.com.sinosafe.tps.module.repair.entity.${keywords}Entity">
+    <%for(attr in attrs){if(attr.isKey){%>
+    <id column="${attr.colName}" jdbcType="${attr.jdbcType}" property="${attr.name}" />
+    <%}}%>
+    <%for(attr in attrs){if(!attr.isKey){%>
+    <result column="${attr.colName}" jdbcType="${attr.jdbcType}" property="${attr.name}" />
+    <%}}%>
+  </resultMap>
+  <sql id="Base_Column_List">
+    ${attrsKeyString4}
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="${parameterType}" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from ${tableNameReal}
+    where ${attrsKeyString5}
+  </select>
+  <select id="selectBySelective" parameterType="cn.com.sinosafe.tps.module.repair.entity.${keywords}Entity" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from ${tableNameReal}
+      <where>
+    <%for(attr in attrs){%>
+        <if test="${attr.name} != null">
+          and ${attr.colName} = #{${attr.name},jdbcType=${attr.jdbcType}}
+        </if>
+       <%}%>
+       </where>
+    </select>
+  <insert id="insert" parameterType="cn.com.sinosafe.tps.module.repair.entity.${keywords}Entity">
+    insert into ${tableNameReal} (
+       ${attrsKeyString4}
+      )
+    values (${attrsKeyString6}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.sinosafe.tps.module.repair.entity.${keywords}Entity">
+    insert into ${tableNameReal}
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+    <%for(attr in attrs){%>
+      <if test="${attr.name} != null">
+        ${attr.colName},
+      </if>
+      <%}%>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+    <%for(attr in attrs){%>
+      <if test="${attr.name} != null">
+        #{${attr.name},jdbcType=${attr.jdbcType}},
+      </if>
+      <%}%>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.sinosafe.tps.module.repair.entity.${keywords}Entity">
+    update ${tableNameReal}
+    <set>
+    <%for(attr in attrs){%>
+      <if test="${attr.name} != null">
+        ${attr.colName} = #{${attr.name},jdbcType=${attr.jdbcType}},
+      </if>
+     <%}%>
+    </set>
+    where ${attrsKeyString5}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.sinosafe.tps.module.repair.entity.${keywords}Entity">
+    update ${tableNameReal}
+    set
+    ${attrsKeyString7}
+    where ${attrsKeyString5}
+  </update>
+</mapper>
